@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="cs2.sampler.AppTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2024-04-26T17:14:53" hostname="Theodores-MacBook-Air.local" time="0.309">
+  <properties/>
+  <testcase name="testGetCount()" classname="cs2.sampler.AppTest" time="0.004"/>
+  <testcase name="testGetWords()" classname="cs2.sampler.AppTest" time="0.0"/>
+  <testcase name="testTotalCount()" classname="cs2.sampler.AppTest" time="0.0"/>
+  <testcase name="runSamplerTester()" classname="cs2.sampler.AppTest" time="0.3"/>
+  <testcase name="testIncrement()" classname="cs2.sampler.AppTest" time="0.001"/>
+  <testcase name="appCanStart()" classname="cs2.sampler.AppTest" time="0.001"/>
+  <testcase name="testGetProbability()" classname="cs2.sampler.AppTest" time="0.001"/>
+  <system-out><![CDATA[{Eight=8, Five=5, Six=6, One=1, Four=4, Nine=9, Seven=7, Ten=10, Two=2, Three=3}
+{Eight=8, Five=5, Six=6, One=1, Four=4, Nine=9, Seven=7, Ten=10, Two=2, Three=3}
+{Eight=8, Five=5, Six=6, One=1, Four=4, Nine=9, Seven=7, Ten=10, Two=2, Three=3}
+55
+Eight0.14545454545454545
+55
+Five0.09090909090909091
+55
+Six0.10909090909090909
+55
+One0.01818181818181818
+55
+Four0.07272727272727272
+55
+Nine0.16363636363636364
+55
+Seven0.12727272727272726
+55
+Ten0.18181818181818182
+55
+Two0.03636363636363636
+55
+Three0.05454545454545454
+10
+HHH
+1000000
+55
+55
+Eight	frequency is within 0.001 of 0.1455
+HHH
+1000000
+55
+55
+Five	frequency is within 0.001 of 0.0909
+HHH
+1000000
+55
+55
+Four	frequency is within 0.001 of 0.0727
+HHH
+1000000
+55
+55
+Nine	frequency is within 0.001 of 0.1636
+HHH
+1000000
+55
+55
+One	frequency is within 0.001 of 0.0182
+HHH
+1000000
+55
+55
+Seven	frequency is within 0.001 of 0.1273
+HHH
+1000000
+55
+55
+Six	frequency is within 0.001 of 0.1091
+HHH
+1000000
+55
+55
+Ten	frequency is within 0.001 of 0.1818
+HHH
+1000000
+55
+55
+Three	frequency is within 0.001 of 0.0545
+HHH
+1000000
+55
+55
+Two	frequency is within 0.001 of 0.0364
+57
+57
+55
+55
+55
+55
+55
+55
+55
+55
+55
+55
+55
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
