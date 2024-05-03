@@ -6,14 +6,13 @@ import javafx.scene.image.Image;
 public class Enemy extends Sprite {
   public boolean isRight = true, isUp = true;
   private Image bulletPicture;
-  public Double x;
 
   /*
   //This constructor should initialize all fields
   //**Remember that some fields are inherited from Sprite
     */
   public Enemy(Image avatar, Image bulletPic, Vec2 p) { 
-    super(avatar, p);
+    super(avatar, p, new Vec2(40,70));
     this.bulletPicture = bulletPic;
   }
 
@@ -24,7 +23,7 @@ public class Enemy extends Sprite {
   // current position of the enemy, and a velocity going down the screen
     */
   public Bullet shoot() {
-    return new Bullet(bulletPicture, new Vec2(pos.getX(),pos.getY()), new Vec2(0,10));
+    return new Bullet(bulletPicture, new Vec2(pos.getX() + 20, pos.getY() + 20), new Vec2(0,10));
    }
 
   public void move() {

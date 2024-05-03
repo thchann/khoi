@@ -8,7 +8,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class EnemySwarm{
-  private ArrayList<Enemy> swarm;
+  public ArrayList<Enemy> swarm;
+  private ArrayList<Vec2> swarmLocation = new ArrayList<Vec2>();
   public Vec2 positio;
   public boolean isRight = true, isUp = true;
 
@@ -24,7 +25,7 @@ public class EnemySwarm{
     swarm = new ArrayList<>();
 
     // Calculate the spacing between enemies
-    double spacingX = enemPic.getWidth() * 9.5;
+    double spacingX = enemPic.getWidth() * 3.0;
     double spacingY = enemPic.getHeight() * 4.5;
 
     // Create enemies in a grid pattern
@@ -33,6 +34,7 @@ public class EnemySwarm{
             double x = col * spacingX + 70;  // Adjust this as needed for spacing
             double y = row * spacingY + 50;  // Adjust this as needed for spacing
             Vec2 position = new Vec2(x, y);
+            swarmLocation.add(position);
             Enemy enemy = new Enemy(enemPic, bullPic, position);
             swarm.add(enemy);
 
@@ -41,6 +43,8 @@ public class EnemySwarm{
     }
 
   }
+
+
 
 
   /*
@@ -69,6 +73,11 @@ public class EnemySwarm{
 
         return randomEnemy.shoot();
 
+  }
+
+  public int size(){
+    int sizeOfSwarm = swarm.size();
+    return sizeOfSwarm;
   }
 
 }

@@ -6,6 +6,8 @@ import javafx.scene.image.Image;
 
 public class Player extends Sprite {
   private Image bulletPicture;
+  public boolean canShoot = true;
+  private Vec2 originalPosition;
 
   //public Image image = new Image("/users/gbelaund/Pictures/Player.png");
 
@@ -13,14 +15,11 @@ public class Player extends Sprite {
   //This constructor should initialize all fields
   //**Remember that some fields are inherited from Sprite
   */
-  public Player(Image avatar, Image bullPic, Vec2 p) {
-    super(avatar, p);
+  public Player(Image avatar, Image bullPic, Vec2 p, Vec2 size) {
+    super(avatar, p, size);
     this.bulletPicture = bullPic;
+    originalPosition = p;
    }
-  
-  public void display(GraphicsContext g){
-    g.drawImage(this.img, pos.getX(), pos.getY(), 40, 70);
-  }
 
   /*
   // This method should create a new Bullet object and return it
@@ -29,9 +28,8 @@ public class Player extends Sprite {
     */
 
   public Bullet shoot() {
-    Vec2 clonedPos = new Vec2(pos.getX() - 5, pos.getY() - 5);
-    this.position = new Bullet(bulletPicture, clonedPos, new Vec2(0,-50));
-    return position;
+    Vec2 clonedPos = new Vec2(pos.getX() + 20, pos.getY() - 5);
+    return new Bullet(bulletPicture, clonedPos, new Vec2(0,-30));
   }
 
   /*
@@ -39,7 +37,7 @@ public class Player extends Sprite {
   */
   public void moveLeft() { 
     if(pos.getX() >= 30){
-      pos = new Vec2(pos.getX() - 30, pos.getY());
+      pos = new Vec2(pos.getX() - 10, pos.getY());
     }
   }
 
@@ -48,20 +46,25 @@ public class Player extends Sprite {
   */
   public void moveRight() { 
     if(pos.getX() <= 720){
-      pos = new Vec2(pos.getX() + 30, pos.getY());
+      pos = new Vec2(pos.getX() + 10, pos.getY());
     }
   }
 
   public void moveUp(){
     if(pos.getY() >= 50){
-      pos = new Vec2(pos.getX(), pos.getY() - 30);
+      pos = new Vec2(pos.getX(), pos.getY() - 10);
     }
   }
 
   public void moveDown(){
     if(pos.getY() <= 700){
-      pos = new Vec2(pos.getX(), pos.getY() + 30);
+      pos = new Vec2(pos.getX(), pos.getY() + 10);
     }
+  }
+
+  public void reset(){
+    pos = new Vec2(originalPosition.getX(), originalPosition.getY());
+
   }
 
 }

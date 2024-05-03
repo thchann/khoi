@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 public abstract class Sprite {
   protected Image img; // the image to be displayed for this sprite
   protected Vec2 pos; // the current position of this sprite
-  protected Bullet position;
+  protected Vec2 size;
 
 
   /* The remained of the constructors and methods should be uncommented
@@ -22,10 +22,16 @@ public abstract class Sprite {
   /*
   // The constructor should initialize the fields of the class
     */
-  public Sprite(Image i, Vec2 p) { 
+  public Sprite(Image i, Vec2 p, Vec2 size) { 
       this.img = i;
       this.pos = p;
+      this.size = size;
 
+  }
+
+  public void heartPosition(Image i, Vec2 heartPosition){
+    img = i;
+    pos = heartPosition;
   }
 
 
@@ -33,7 +39,7 @@ public abstract class Sprite {
   // This method should draw the image at the current position
     */
   public void display(GraphicsContext g) { 
-    g.drawImage(this.img, pos.getX(),pos.getY(), 50, 50);
+    g.drawImage(this.img, pos.getX(),pos.getY(), size.getX(), size.getY());
   }
 
 
@@ -45,9 +51,50 @@ public abstract class Sprite {
     pos.add(delta);
   }
 
+  public boolean overlaps1D(double d, double e, double f, double g){
+    if (contains(d, e, f) || contains(d, e, g) || contains(f, g, d) || contains(f, g, e)){
+      return true;
+    } 
+    return false;
+  }
+  
+  public boolean contains(double d, double e, double f){
+    if (d <= f && f <= e){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public boolean overlaps(Sprite other){
+    if (this instanceof Enemy && other instanceof Bullet && ((Bullet) other).vel.getY() > 0){
+      return false;
+    }
+    if (this instanceof Player && other instanceof Bullet && ((Bullet) other).vel.getY() < 0){
+      return false;
+    }
+    if (overlaps1D(this.pos.getX(), this.pos.getX() + this.size.getX(), other.pos.getX(), other.pos.getX() + other.size.getX()) && 
+    overlaps1D(this.pos.getY(), this.pos.getY() + this.size.getY(), other.pos.getY(), other.pos.getY() + other.size.getY())){ 
+      return true; 
+    }
+    return false;
+  }
+
   /*public boolean Intersection(){
     if (position )
     return true;
+  }*/
+
+  /*public boolean intersects(Sprite other){
+    boolean collided = false;
+    if (this instanceof Player && other instanceof Bullet){
+      overlaps(other.getX(), other.getX() + )
+     }
+    return collided;
+  }
+
+  public boolean overlapsx(int x, int width){
+    if (otherx.getX() <= pos.getX() && )
   }*/
 
 
