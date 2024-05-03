@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,14 +25,17 @@ import javax.swing.text.html.HTMLDocument.Iterator;
 
 public class SpaceGameApp extends Application {
 
-  protected static final int FRAME_RATE = 1000;
-  protected static final int PLAYER_SHOOT_RATE = 10;
+  protected static int FRAME_RATE = 1000;
+  protected static int PLAYER_SHOOT_RATE = 10;
   public Set<KeyCode> codes = new HashSet<>();
 
   Image bullet = new Image("file:laser_beam.png", 5, 20, true, false);
   Image battleship = new Image("file:rocket.png", 10, 80, true, false);
   Image enemy_ship = new Image("file:enemy_ship.png", 30,30,true,false);
   Image heart = new Image("file:heart.png", 30,30,true,false);
+  EnemySwarm enemyswarm = new EnemySwarm(3, 8, enemy_ship, bullet);
+  Enemy enemy = new Enemy(enemy_ship, bullet, new Vec2(100,200));
+  int counter = 0;
 
 
   public void start(Stage stage) {
@@ -39,12 +43,12 @@ public class SpaceGameApp extends Application {
     Player hearts1 = new Player(heart, heart, new Vec2(700, 50), new Vec2(40,30));
     Player hearts2 = new Player(heart, heart, new Vec2(640, 50), new Vec2(40,30));
     Player hearts3 = new Player(heart, heart, new Vec2(580, 50), new Vec2(40,30));
-    Enemy enemy = new Enemy(enemy_ship, bullet, new Vec2(100,200));
-    EnemySwarm enemyswarm = new EnemySwarm(3, 8, enemy_ship, bullet);
+  
     ArrayList<Bullet> bullets = new ArrayList<>();
     AtomicBoolean enemyIsAlive = new AtomicBoolean(true);
     AtomicBoolean playerIsAlive = new AtomicBoolean(true);
     ArrayList<Integer> numHits = new ArrayList<Integer>();
+    ArrayList<Enemy> enemyDead = new ArrayList<Enemy>();
 
     stage.setTitle("PROXY WARS");
     stage.show();
@@ -75,16 +79,18 @@ public class SpaceGameApp extends Application {
         g.fillRect(0, 0, 800, 800);
         player.display(g);
 
-        if (enemyswarm.size() == 0){
-          EnemySwarm enemyswarm = new EnemySwarm(3, 8, enemy_ship, bullet);
-          enemyswarm.display(g);
-        }
-
         if (enemyIsAlive.get()){
           enemy.display(g);
           if (elapsedTime >= FRAME_RATE){
             bullets.add(enemy.shoot());
           }
+        }
+
+        if (enemyswarm.size() == 0){
+          enemy = new Enemy(enemy_ship, bullet, new Vec2(100,200));
+          enemyswarm = new EnemySwarm(3, 8, enemy_ship, bullet);
+          enemyswarm.display(g);
+          enemyIsAlive.set(true);
         }
 
         enemy.move();
@@ -105,16 +111,21 @@ public class SpaceGameApp extends Application {
           hearts1.display(g);
         }
 
-        if (numHits.size() == 3){
-          g.setFill(Color.BLACK);
-          g.fillRect(0, 0, 800, 800);
-          stop();
-        }
+        if (counter >= 100){
+          FRAME_RATE = 250;
+          PLAYER_SHOOT_RATE = 100;
+          g.setFill(Color.WHITE);
+          g.fillText("HEATING UP", 350, 20);
+          }
+          if (counter >= 200){
+            FRAME_RATE = 50;
+            PLAYER_SHOOT_RATE = 200;
+          }
 
           for (int i = 0; i < bullets.size(); i++){
             Bullet b = bullets.get(i);
             if (b == null){
-              System.out.println("Null");
+              System.out.println("Stop");
             } else {
               b.update();
               b.display(g);
@@ -127,17 +138,32 @@ public class SpaceGameApp extends Application {
             if (enemy.overlaps(b)){
               bullets.remove(b);
               enemyIsAlive.set(false);
-            } else {
+              counter += 1;
             }
             for (Enemy enemy : enemyswarm.swarm){
               if (enemy.overlaps(b)){
+                counter += 1;
                 bullets.remove(b);
-                enemyswarm.swarm.remove(enemy);
+                enemyDead.add(enemy);
               }
+            }
+            for (Enemy enemy : enemyDead){
+              enemyswarm.swarm.remove(enemy);
             }
           }
 
           move();
+          g.setFill(Color.WHITE);
+          g.fillText("Opps dead: " + counter, 30, 30);
+
+          if (numHits.size() == 3){
+            g.clearRect(0, 0, 800, 800);
+            g.setFill(Color.BLACK);
+            g.fillRect(0, 0, 800, 800);
+            g.setFill(Color.WHITE);
+            g.fillText("DEAD", 350, 350);
+            stop();
+          }
 
         }
 
